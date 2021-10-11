@@ -1,1 +1,276 @@
-system.out.println("hello")
+package ap_assignment1;
+import java.util.Scanner ; 
+import java.util.Random;
+import java.util.ArrayList;
+class hospital{
+	String hname;
+	int pin;
+	int id ;
+	slots slots_in_hospital;
+	public hospital(String name, int pin ,int id) {
+		slots_in_hospital=new slots( );
+		this.hname =name;
+		this.pin=pin;
+		this.id = id;
+		
+	}
+}
+
+class citizen {
+	String name;
+	int age;
+	String id;
+	
+	public citizen (String name,int age,String id) {
+		this.name = name ;
+		this.age = age;
+		this .id = id;
+		
+	}
+}
+class vaccine {
+	String vname;
+	int doses;
+	int gap;
+	public vaccine(String name, int doses, int gap) {
+		this.vname = name;
+		this.doses = doses;
+		this.gap = gap;
+		
+	}
+	
+}
+class slots{
+	int slots;
+	int day;
+	int quantity;
+	vaccine vaccine;
+	int id;
+	
+		
+	
+	
+}
+
+
+public class Main {
+	static ArrayList<vaccine> vaccine_list = new ArrayList<vaccine>();
+	static ArrayList<citizen> citizen_List = new ArrayList<citizen>();
+	//static ArrayList<String> citizen_id_list = new ArrayList<String>();
+	static ArrayList<hospital> hospital_list  = new ArrayList<hospital>();
+	
+	
+	static void add_vaccine(){
+		String name;
+		int doses;
+		int gap = 0;
+		System.out.print("vaccine name: ");
+		Scanner input = new Scanner(System.in);
+		name= input.nextLine();
+		System.out.print("no of doses : ");
+		doses=input.nextInt();
+		if (doses == 2) {
+			System.out.print("gap between doses: ");
+			gap = input.nextInt();
+		}
+		else if (doses == 1) {
+			gap = 0;
+		}
+		vaccine x = new vaccine(name,doses,gap);
+		vaccine_list.add(x);
+		System.out.println("vaccine_name: "+name+"Number of doses:"+doses+"Gap Between Doses:"+gap);
+		
+		
+	}
+	static void register_hospital() {
+		String name;
+		int pin ;
+		int id;
+
+		
+		System.out.print("hospital name: ");
+		Scanner input = new Scanner(System.in);
+		name =input.nextLine();
+		System.out.print("pin code: ");
+		pin =input.nextInt();
+		Random rand = new Random();
+		id = 100000+ rand.nextInt(10000);
+		
+		hospital y = new hospital( name,  pin , id);
+		hospital_list.add(y);
+		System.out.println("hospital name: "+name +", pin code "+ pin +" unique code "+id );
+		
+	}
+	static void register_citizen () {
+		String name;
+		int age ;
+		String id;
+		System.out.print("citizen name: ");
+		Scanner input = new Scanner(System.in);
+		name =input.nextLine();
+		System.out.print("age: ");
+		age =input.nextInt();
+		System.out.print("Unique ID: ");
+		id =input.next();
+		
+		citizen z = new citizen(name,age,id);
+		citizen_List.add(z);
+		System.out.println("citizen name: "+ name+"age:"+age+"Unique ID: "+id);
+		if (age<19) {
+			System.out.println("Only above 18  are allowed");	
+		}	
+	}
+	static void add_slot_for_vaccination(){
+		int id;
+		int slots=0;
+		int day=0;
+		int quantity=0;
+		String name = null;
+		int doses=0;
+		int gap=0;
+		vaccine vaccine = new vaccine(name,doses,gap);
+		String  select = null;
+		int k;
+		System.out.println("enter hospital id : " );
+		Scanner input = new Scanner(System.in);
+		id =input.nextInt();
+		System.out.print("enter number of slots to be added: ");
+		slots = input.nextInt();
+		while ( slots!= 0) {
+			System.out.println("enter day number: ");
+			day = input.nextInt();
+			System.out.println("enter quantity: ");
+			quantity = input.nextInt();
+			System.out.println("select vaccine ");
+			System.out.println("0.covax");
+			System.out.println("1.covi");
+			k= input.nextInt();
+			if (k==0) {
+				select = "covax";
+			}
+			else if (k==1) {
+				select = "covi";
+				
+			}
+			System.out.println("slot added by hospital "+id+" for day: "+day+" , available quantity: "+quantity+" of vaccine "+ select);
+			slots--;
+		}
+		slots sl=new slots();
+		sl.id=id;
+		sl.slots=slots;
+		sl.day=day;
+		sl.quantity=quantity;
+		sl.vaccine=vaccine;
+		
+		
+	hospital_list.get(id).slots_in_hospital=sl;
+		
+	}
+	static void  book_slot_for_vacination() {
+		int id;
+		int j;
+		int pin;
+		int hid;
+		System.out.println("enter patient unique id ");
+		Scanner input = new Scanner(System.in);
+		id =input.nextInt();
+		System.out.println("1.search by area ");
+		System.out.println("2.search by vaccine");
+		j = input.nextInt();
+		if (j == 1) {
+			System.out.println("enter pin code ");
+			pin =input.nextInt();
+			for (int g =0;g<hospital_list.size();g++) {
+				if (hospital_list.get(g).pin == pin) {
+					System.out.println(hospital_list.get(g).id+" " +hospital_list.get(g).hname);
+					
+				}
+			}
+			System.out.println("enter hospital id : ");
+			hid =input.nextInt();
+			//int q = hospital_list.indexOf(hid);
+			//System.out.println()
+		}
+		if (j==2) {
+			System.out.println("enter vaccine name ");
+			
+		}
+		
+		
+	}
+	static void list_of_slots_for_vaccintion(){
+		int id;
+		System.out.println("enter hospital id : " );
+		Scanner input = new Scanner(System.in);
+		id =input.nextInt();
+		for (int c=0 ;c<hospital_list.size();c++) {
+			if (hospital_list.get(c).id == id) {
+				System.out.println("day: "+hospital_list.get(c).slots_in_hospital.day+" vaccine "+hospital_list.get(c).slots_in_hospital.vaccine.vname +" available qty "+hospital_list.get(c).slots_in_hospital.quantity);
+				
+			}
+			
+		}
+		
+		
+		//System.out.println("day: "+hospital_list.get(1).slots_in_hospital.day);
+		
+		
+	}
+	static void check_vacination_status() {
+		int id;
+		System.out.println("enter patient  id : " );
+		Scanner input = new Scanner(System.in);
+		id =input.nextInt();
+		
+		
+	}
+	public static void main(String[] args) {
+		int p ;
+		
+		while (true) {
+			System.out.println("CoWin Portal initialized....");
+			System.out.println("---------------------------------");
+			System.out.println("1. Add Vaccine");
+			System.out.println("2. Register Hospital");
+			System.out.println("3. Register Citizen");
+			System.out.println("4. Add Slot for Vaccination");
+			System.out.println("5. Book Slot for Vaccination");
+			System.out.println("6. List all slots for a hospital");
+			System.out.println("7. Check Vaccination Status");
+			System.out.println("8. Exit");
+			System.out.println("---------------------------------");
+			System.out.println("enter no :" );
+			Scanner input = new Scanner(System.in);
+			p =input.nextInt();
+			if (p==1) {
+				add_vaccine();
+			}
+			if(p==2) {
+				register_hospital();
+			}
+			if(p==3) {
+				register_citizen ();
+			}
+			if (p==4) {
+				add_slot_for_vaccination();
+			}
+			if (p==5) {
+				book_slot_for_vacination();
+			}
+			if (p==6) {
+				list_of_slots_for_vaccintion();
+			}
+			if (p==7) {
+				check_vacination_status() ;
+			}
+			if (p==8) {
+				break;
+			}
+			
+		}
+		// TODO Auto-generated method stub
+
+	}
+
+}
+
