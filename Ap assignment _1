@@ -19,6 +19,7 @@ class citizen {
 	int age;
 	String id;
 	int doses_taken;
+	int due_date;
 	String vaccine;
 	public citizen (String name,int age,String id,int doses_taken) {
 		this.name = name ;
@@ -214,6 +215,12 @@ public class Main {
 					citizen_list.get(r).vaccine  =slots_list.get(n).vaccine.vname;
 					slots_list.get(n).quantity--;
 					citizen_list.get(r).doses_taken++;
+					for (int p=0; p<vaccine_list.size();p++) {
+						if  (vaccine_list.get(p).vname == slots_list.get(n).vaccine.vname) {
+							citizen_list.get(r).due_date =slots_list.get(n).day+vaccine_list.get(p).gap;
+						}
+					}
+					
 					
 				}
 			}
@@ -254,6 +261,12 @@ public class Main {
 				citizen_list.get(r).vaccine  =slots_list.get(n).vaccine.vname;
 				slots_list.get(n).quantity--;
 				citizen_list.get(r).doses_taken++;
+				for (int p=0; p<vaccine_list.size();p++) {
+					if  (vaccine_list.get(p).vname == slots_list.get(n).vaccine.vname) {
+						citizen_list.get(r).due_date =slots_list.get(n).day+vaccine_list.get(p).gap;
+					}
+				}
+				
 			}
 		}
 		}
@@ -294,7 +307,7 @@ public class Main {
 							System.out.println("partially vaccinated");
 							System.out.println("vaccine given "+citizen_list.get(x).vaccine);
 							System.out.println("no of doses given "+citizen_list.get(x).doses_taken);
-							System.out.println("next dose due date "+);
+							System.out.println("next dose due date "+citizen_list.get(x).due_date);
 						}
 						if (citizen_list.get(x).doses_taken==0) {
 							System.out.println("citizen registered");
