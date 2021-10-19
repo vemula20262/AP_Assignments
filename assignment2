@@ -12,14 +12,67 @@ interface assignment2{
 
 
 
-class  student {
+class  student implements assignment2 {
 	String sname;
-	public student(String sname) {
+	int i;
+	public student(String sname,int i) {
 	this.sname = sname ;
-	}	
+	this .i = i;
+	}
+	
+	public void add_assessments(ArrayList<assessment> assessment_list) {
+	        System.out.println("Pending assessments");
+	        for(int i = 0; i < assessment_list.size() ; i++){
+	            if(assessment_list.get(i).getsubmit(i) == null){
+	            	if (assessment_list.get(i).gettype() =="assignment") {
+	    				System.out.println("ID"+i+"assignment"+assessment_list.get(i).getproblem()+"max_marks: "+assessment_list.get(i).getmax_marks());
+	    				System.out.println("-------------------");
+	    			}
+	    			if (assessment_list.get(i).gettype() =="quiz") {
+	    				System.out.println("ID"+i+"question"+assessment_list.get(i).getproblem());
+	    				System.out.println("-------------------");
+	    			}
+	            }
+	        }
+	        System.out.print("Enter ID of assessment: ");
+	        Scanner input = new Scanner(System.in);
+	        int s = input.nextInt();
+	        input.nextLine();
+	        System.out.println();
+	        if(assessment_list.get(s).gettype() == "assignment") {
+	            System.out.print("Enter filename of assignment: ");
+	        }
+	        else if(assessment_list.get(s).gettype() == "quiz") {
+	            System.out.println(assessment_list.get(s).getproblem());
+	        }
+	        assessment_list.get(s).setsubmit(i, input.nextLine());
+		
+		
+		
+	}
+	public void grade_assessments(ArrayList<assessment> assessment_list) {
+        System.out.println("Graded submissions");
+        for(int j = 0; j < assessment_list.size() ; j++){
+            if(assessment_list.get(i).getgrades(i) != -1){
+                System.out.println("Submission" + assessment_list.get(j).getsubmit(i));
+                System.out.println("Marks scored: " + assessment_list.get(j).getgrades(i));
+                System.out.println("Graded by: " + assessment_list.get(j).getinstructor_id());
+            }
+        }
+        System.out.println();
+        System.out.println("Ungraded submissions");
+        for(int k = 0; k < assessment_list.size() ; k++){
+            if((assessment_list.get(k).getgrades(i) == -1) && (assessment_list.get(k).getsubmit(i) != null)){
+                System.out.println("Submission" + assessment_list.get(k).getsubmit(i));
+            }
+        }
+        System.out.println("-------------------");
+    }
+
 }
 
 class instructor implements assignment2 {
+	
 	String name;
 	public instructor(String name) {
 		this.name = name;
@@ -31,13 +84,16 @@ class instructor implements assignment2 {
 		System.out.println("2. add quiz");
 		Scanner input = new Scanner(System.in);
 		int m = input.nextInt();
+		input.nextLine();
 		if (m==1) {
 			String type = "assignment";
 			String close = "not closed";
 			System.out.println("enter problem statment");
 			String problem = input .nextLine();
+			input.nextLine();
 			System.out.println("enter max marks ");
 			int max_marks = input.nextInt();	
+			input.nextLine();
 			assessment_list.add(k);
 		}
 		if (m==2) {
@@ -45,21 +101,23 @@ class instructor implements assignment2 {
 			String close ="not closed";
 			System.out.println("enter quiz question");
 			String problem =input.nextLine();
+			input.nextLine();
 			int max_marks = 1;
 			assessment_list.add(k);
 		}
 		
 	}
-	public void grade_assements(ArrayList<assessment> assessment_list) {
+	
+	public void grade_assessments(ArrayList<assessment> assessment_list) {
 		
 		System.out.println("list of assessments");
 		for (int u=0;u <assessment_list.size();u++) {
-			if (assessment_list.get(u).type =="assignment") {
-				System.out.println("ID"+u+"assignment"+assessment_list.get(u).problem+"max_marks: "+assessment_list.get(u).max_marks);
+			if (assessment_list.get(u).gettype() =="assignment") {
+				System.out.println("ID"+u+"assignment"+assessment_list.get(u).getproblem()+"max_marks: "+assessment_list.get(u).getmax_marks());
 				System.out.println("-------------------");
 			}
-			if (assessment_list.get(u).type =="quiz") {
-				System.out.println("ID"+u+"question"+assessment_list.get(u).problem);
+			if (assessment_list.get(u).gettype() =="quiz") {
+				System.out.println("ID"+u+"question"+assessment_list.get(u).getproblem());
 				System.out.println("-------------------");
 			}
 			
@@ -67,32 +125,36 @@ class instructor implements assignment2 {
 		System.out.println("enter id of the assignment");
 		Scanner input = new Scanner(System.in);
 		int id = input.nextInt();
+		input.nextLine();
 		System.out.println("choose id from these ungraded submissions");
 		for (int v=0;v <3;v++) {
-			if(assessment_list.get(id).grades[v]==-1) {
+			if(assessment_list.get(id).getgrades(v)==-1) {
 				System.out.println(v+".S"+v);
 			}
 		}
 		int k = input.nextInt();
-		
+		input.nextLine();
 		System.out.println("submission:");
-		System.out.println(assessment_list.get(id).submit[k]);
+		System.out.println(assessment_list.get(id).getsubmit(k));
 		System.out.println("--------------------------");
-		System.out.println("max marks"+ assessment_list.get(id).max_marks);
+		System.out.println("max marks"+ assessment_list.get(id).getmax_marks());
 		System.out.println("marks scored");
 		int d = input.nextInt();
-		assessment_list.get(id).grades[k]=d;
-		
+		input.nextLine();
+		assessment_list.get(id).setgrade(k,d);
+		assessment_list.get(id).setinstructor_id(name);		
 	}
 	
 }
 class assessment {
-	int[] grades;
-	String[] submit ;
-	int max_marks ;
-	String type;
-	String problem;
-	String  close;
+	private int[] grades;
+	private String[] submit ;
+	private int max_marks ;
+	private String type;
+	private String problem;
+	private String  close;
+	private String instructor_id;
+	
 	
 	public assessment() {
 		grades = new int [3];
@@ -102,7 +164,40 @@ class assessment {
 		submit = new String[3];
 		
 		}
-	
+	public String getproblem(){
+        return problem;
+    }
+    public int getmax_marks(){
+        return max_marks;
+    }
+    public String getsubmit(int i){
+        return submit[i];
+    }
+    public String gettype(){
+        return type;
+    }
+    public void setsubmit(int i , String submit){
+        this.submit[i]=submit;
+    }
+	public int getgrades(int i) {
+		return grades[i];
+	}
+	public void setgrade(int i,int grade) {
+		this.grades[i]=grade;
+	}
+	public String getclose() {
+		return close;
+	}
+	public void setclose(String close) {
+		this.close=close;
+	}
+	public String getinstructor_id() {
+		return instructor_id;
+	}
+	public void setinstructor_id(String instructor_id) {
+		this.instructor_id=instructor_id;
+		
+	}
 	
 }
 class material{
@@ -159,15 +254,18 @@ public class main {
 		
 		ArrayList<String> content_list = new ArrayList<String>();
 		System.out.println("1. add lecture slide ");
+		
 		System.out.println("2. add lecture vedeio ");
 		Scanner input = new Scanner(System.in);
 		int b = input.nextInt();
+		input.nextLine();
 		if (b==1) {
 			String flag = "slides";
 			System.out.println("enter topic of slides");
 			String topic = input.nextLine();
 			System.out.println("enter no of slides");
 			int number =input.nextInt();
+			input.nextLine();
 			Date date = new Date();
 			
 			for (int k=0;k<number;k++) {
@@ -248,109 +346,175 @@ public class main {
 			}
 		}
 	}
-	static void add_assessments(){
-		assessment k =new assessment();
-		System.out.println("1. add lecture slides");
-		System.out.println("2. add quiz");
-		Scanner input = new Scanner(System.in);
-		int m = input.nextInt();
-		if (m==1) {
-			String type = "assignment";
-			String close = "not closed";
-			System.out.println("enter problem statment");
-			String problem = input .nextLine();
-			System.out.println("enter max marks ");
-			int max_marks = input.nextInt();	
-			assessment_list.add(k);
-		}
-		if (m==2) {
-			String type = "quiz";
-			String close ="not closed";
-			System.out.println("enter quiz question");
-			String problem =input.nextLine();
-			int max_marks = 1;
-			assessment_list.add(k);
-		}
-		
-	}
+	
 	static void veiw_assessments() {
 		for (int u=0;u <assessment_list.size();u++) {
-			if (assessment_list.get(u).type =="assignment") {
-				System.out.println("ID"+u+"assignment"+assessment_list.get(u).problem+"max_marks: "+assessment_list.get(u).max_marks);
+			if (assessment_list.get(u).gettype() =="assignment") {
+				System.out.println("ID"+u+"assignment"+assessment_list.get(u).getproblem()+"max_marks: "+assessment_list.get(u).getmax_marks());
 				System.out.println("-------------------");
 			}
-			if (assessment_list.get(u).type =="quiz") {
-				System.out.println("ID"+u+"question"+assessment_list.get(u).problem);
+			if (assessment_list.get(u).gettype() =="quiz") {
+				System.out.println("ID"+u+"question"+assessment_list.get(u).getproblem());
 				System.out.println("-------------------");
 			}
 			
 		}
 	}
+	static void close_assessment(){
+		System.out.println("list open assignments");
+		for (int u=0;u <assessment_list.size();u++) {
+			if (assessment_list.get(u).gettype() =="assignment" && assessment_list.get(u).getclose()=="not closed") {
+				System.out.println("ID"+u+"assignment"+assessment_list.get(u).getproblem()+"max_marks: "+assessment_list.get(u).getmax_marks());
+				System.out.println("-------------------");
+			}
+			if (assessment_list.get(u).gettype() =="quiz"&& assessment_list.get(u).getclose()=="not closed") {
+				System.out.println("ID"+u+"question"+assessment_list.get(u).getproblem());
+				System.out.println("-------------------");
+			}
+			
+		}
+		System.out.println("enter id of assignment to close");
+		Scanner input = new Scanner(System.in);
+		int id = input .nextInt();
+		assessment_list.get(id).setclose("close");
+		
+		
+	}
+	 
+		
 	
+	static ArrayList<student> studentsList = new ArrayList<student>();
+	static ArrayList<instructor> instructorsList = new ArrayList<instructor>();
 
+	static Scanner input = new Scanner(System.in);
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int k ;
-		while (true) {
-		System.out.println("welcome to backpack");
-		System.out.println("1. enter as instructor");
-		System.out.println("2. enter as student ");
-		System.out.println("3.exit");
-		Scanner input = new Scanner(System.in);
-		k= input.nextInt();
-		if (k==1) {
-			System.out.println("instructors");
-			System.out.println("0-I0");
-			System.out.println("1-I1");
-			System.out.println("choose id");
-			int a = input.nextInt();
-			System.out.println("Welcome "+ "I"+a);
-				while (true) {
-					System.out.println("instructors menu ");
-					System.out.println("1. add class material");
-					System.out.println("2.add assignment ");
-					System.out.println("3.veiw lecture materials");
-					System.out.println("4.veiw assessments");
-					System.out.println("5. grade assessments");
-					System.out.println("6. close assessment" );
-					System.out.println("7.veiw comments ");
-					System.out.println("8.add comments");
-					System.out.println("9.logout");
-					
-						
-						
-				}
-				
-				
-			}
 		
-		
-		if (k==2) {
-			System.out.println("students");
-			System.out.println("0-S0");
-			System.out.println("1-S1");
-			System.out.println("2-S2");
-			System.out.println("choose id ");
-			int p = input.nextInt();
-			System.out.println("welcome "+ "S"+p);
-			while (true) {
-				System.out.println("students menu ");
-				System.out.println("1.veiw lecture materials");
-				System.out.println("2.veiw assessments");
-				System.out.println("3.submit assessments");
-				System.out.println("4.veiw grades");
-				System.out.println("5.veiw comments ");
-				System.out.println("6.add comments");
-				System.out.println("7.logout");
-				
-			}
-			
-		}
-		if (k == 3) {
-			break ;
-		}
-		}
-		
-	}
+		instructor i0 = new instructor("I0");
+        instructor i1 = new instructor("I1");
+        instructorsList.add(i0);
+        instructorsList.add(i1);
+        student s0 = new student("S0",0);
+        student s1 = new student("S1",1);
+        student s2 = new student("S2",2);
+        studentsList.add(s0);
+        studentsList.add(s1);
+        studentsList.add(s2);
+        
+        int temp = -1;
+        while (temp != 3) {
+            System.out.println("Welcome to Backpack \n1. Enter as instructor \n2. Enter as student\n" +
+                    "3. Exit");
+            temp = input.nextInt();
+            
+            input.nextLine();
+            int temp1;
+            int temp2 = -1;
+            if (temp == 1) {
+                System.out.println("Instructors:");
+                for(int k = 0; k < instructorsList.size(); k++){
+                    System.out.println(k + " - " + instructorsList.get(k).name);
+                }
+                System.out.print("Choose id: ");
+                temp1 = input.nextInt();
+                input.nextLine();
+                temp2 = 0;
+                while (temp2 != 9) {
+                    System.out.println("Welcome " + instructorsList.get(temp1).name);
+                    System.out.println("INSTRUCTOR MENU\n" +
+                            "1. Add class material\n" +
+                            "2. Add assessments\n" +
+                            "3. View lecture materials \n" +
+                            "4. View assessments\n" +
+                            "5. Grade assessments\n" +
+                            "6. Close assessment\n" +
+                            "7. View comments\n" +
+                            "8. Add comments\n" +
+                            "9. Logout");
 
+                    temp2 = input.nextInt();
+                    input.nextLine();
+                    switch (temp2) {
+                        case 1:
+                            add_class_material(instructorsList.get(temp1));
+                            break;
+                        case 2:
+                        	
+                            instructorsList.get(temp1).add_assessments(assessment_list);
+                            break;
+                        case 3:
+                        	veiw_material();
+                            break;
+                        case 4:
+                        	veiw_assessments();
+;                            break;
+                        case 5:
+                            instructorsList.get(temp1).grade_assessments(assessment_list);;
+                            break;
+                        case 6:
+                        	close_assessment();
+
+                            break;
+                        case 7:
+                        	veiw_comment();
+                            break;
+                        case 8:
+                        	add_comment(instructorsList.get(temp1));
+                            break;
+                        case 9:
+                            temp2 = 9;
+                            break;
+                    }
+                }
+            } else if (temp == 2) {
+                System.out.println("Students:");
+                for(int k = 0; k < studentsList.size(); k++){
+                    System.out.println(k + " - " + studentsList.get(k).sname);
+                }
+                System.out.print("Choose id: ");
+                temp1 = input.nextInt();
+                System.out.println();
+                input.nextLine();
+                temp2 = 0;
+                while (temp2 != 7) {
+                    System.out.println("Welcome " + studentsList.get(temp1).sname);
+                    System.out.println("STUDENT MENU\n" +
+                            "1. View lecture materials \n" +
+                            "2. View assessments\n" +
+                            "3. Submit assessment\n" +
+                            "4. View grades\n" +
+                            "5. View comments \n" +
+                            "6. Add comments \n" +
+                            "7. Logout\n");
+                    temp2 = input.nextInt();
+                    input.nextLine();
+                    switch (temp2) {
+                        case 1:
+                        	veiw_material();
+                            break;
+                        case 2:
+                        	veiw_assessments();
+                            break;
+                        case 3:
+                            studentsList.get(temp1).add_assessments(assessment_list);
+                            break;
+                        case 4:
+                            studentsList.get(temp1).grade_assessments(assessment_list);
+                            break;
+                        case 5:
+                        	veiw_comment();
+                            break;
+                        case 6:
+                        	add_comment(studentsList.get(temp1));
+                            break;
+                        case 7:
+                            temp2 = 7;
+                            break;
+                    }
+                }
+
+            }
+
+        }
+	}
 }
