@@ -1,0 +1,178 @@
+package com.company;
+import java.util.Scanner ;
+import java.util.ArrayList;
+class matrix{
+    int rows;
+    int column;
+    public int [][]mat;
+    public  matrix (int rows,int column,int[][] mat){
+        this .rows =rows;
+        this.column = column;
+        this.mat = mat;
+    }
+
+
+}
+
+public class Main {
+    public int[][] addmatrix(int [][]a,int [][]b) {
+        int ra=a.length;
+        int rb = a.length;
+        int ca = a[0].length;
+        int cb = a[0].length;
+        int[][]k = new int [ra][ca];
+        if ((ra!=rb) || (ca!=cb)){
+            System.out.println("cannot add them");
+        }
+        else {
+            for (int i=0;i<ra;i++){
+                for (int j =0;j<ca;j++){
+                    k[i][j]=a[i][j]+b[i][j];
+                }
+            }
+        }
+        return k;
+        }
+    public int[][] subtractmatrix(int[][]a,int[][]b){
+        int ra=a.length;
+        int rb = a.length;
+        int ca = a[0].length;
+        int cb = a[0].length;
+        int[][]k = new int [ra][ca];
+        if ((ra!=rb) || (ca!=cb)){
+            System.out.println("cannot subtract them");
+        }
+        else {
+            for (int i=0;i<ra;i++){
+                for (int j =0;j<ca;j++){
+                    k[i][j]=a[i][j]-b[i][j];
+                }
+            }
+        }
+        return k;
+    }
+    public int[][] multiplymatrix(int[][]a,int[][]b){
+        int ra=a.length;
+        int rb = a.length;
+        int ca = a[0].length;
+        int cb = a[0].length;
+        int[][]k = new int [ra][ca];
+        if (ca!=rb){
+            System.out.println("we cant multiply them ");
+        }
+        else {
+            for (int i = 0;i<ra;i++){
+                for (int j = 0;j<cb;j++){
+                    int t = 0;
+                    for (int p=0;p<ca;p++){
+                        k[i][j]=k[i][j]+a[i][t]*b[t][j];
+                        t++;
+                    }
+                }
+            }
+        }
+        return k;
+    }
+    public int[][]transposematrix(int [][]a){
+        int ra=a.length;
+        int ca = a[0].length;
+        int [][]k = new int[ca][ra];
+        for (int i =0;i<ra;i++){
+            for (int j = 0;j<ca;j++){
+                k[i][j]=a[j][i];
+            }
+
+        }
+        return k;
+    }
+    public int determinant(int [][]a){
+        int ra=a.length;
+        int ca = a[0].length;
+        int k = 0;
+        if ((ra==1) && (ca==1)){
+            k = a[0][0];
+
+        }
+        if ((ra==2) && (ca==2)){
+            k = (a[0][0]*a[1][1]-a[1][0]*a[0][1]);
+        }
+        if ((ra==3) && (ca==3)){
+            k = ((a[0][0]*((a[2][2]*a[1][1])-(a[2][1]*a[1][2])))-(a[0][1]*((a[1][0]*a[2][2])-(a[2][0]*a[1][2])))+(a[0][2]*((a[1][0]*a[2][1])-(a[1][1]*a[2][0]))));
+        }
+        else {
+            System.out.println("determininat does not exist ");
+        }
+        return k;
+    }
+
+    public int[][] a_plus_a_transpose(int [][]a){
+        int [][]trans = transposematrix(a);
+        return addmatrix(a,trans);
+    }
+    public int[][] inversematrix(int[][]a){
+        int ra=a.length;
+        int ca = a[0].length;
+        int det = determinant(a);
+        int[][]k = new int [ra][ca];
+        if  ((ra==1) && (ca==1) && (a[0][0]!=0)){
+            k[0][0]=1/det;
+        }
+        if ((ra==2) && (ca==2)&& (det!=0)){
+
+        }
+        if ((ra==3) && (ca==3) && (det!=0)){
+
+        }
+        return k;
+    }
+    public int[][] row_mean(int [][]a){
+        int ra=a.length;
+        int ca = a[0].length;
+        int[][]k = new int [ra][1];
+        for (int i=0 ;i<ra;i++){
+            int w= 0;
+            for (int j=0;j<ca;j++){
+                w = w +a[i][j];
+                k[i][0]=w/3;
+            }
+
+        }
+        return k;
+    }
+    public int[][]coloumn_mean(int[][]a){
+        int ra=a.length;
+        int ca = a[0].length;
+        int[][]k = new int [1][ca];
+        for(int i=0 ;i<ca;i++){
+            int x = 0;
+            for(int j=0 ;j<ra;j++){
+                x = x+ a[j][i];
+                k[0][i]=x/3;
+            }
+        }
+        return k;
+    }
+    public int[][]mean(int[][]a){
+        int ra=a.length;
+        int ca = a[0].length;
+        int[][]k = new int [1][ca];
+        int x = 0;
+        for(int i=0 ;i<ca;i++){
+            for(int j=0 ;j<ra;j++){
+                x = x+ a[j][i];
+            }
+        }
+        k[0][0]=x/3;
+        return k;
+    }
+    public int[][] elementt_wise_mul(int [][]a,int [][]b){
+        for (int i=0 ; i<)
+        for (int i=0 ; i<)
+    }
+
+
+    public static void main(String[] args) {
+
+	// write your code here
+    }
+}
