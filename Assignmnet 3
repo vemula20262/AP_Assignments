@@ -1,6 +1,7 @@
 package com.company;
 import java.util.Scanner ;
 import java.util.ArrayList;
+
 class matrix{
     int rows;
     int column;
@@ -51,12 +52,12 @@ public class Main {
         }
         return k;
     }
-    public int[][] multiplymatrix(int[][]a,int[][]b){
+    public float [][] multiplymatrix(int[][]a,int[][]b){
         int ra=a.length;
         int rb = a.length;
         int ca = a[0].length;
         int cb = a[0].length;
-        int[][]k = new int [ra][ca];
+        float [][]k = new float [ra][ca];
         if (ca!=rb){
             System.out.println("we cant multiply them ");
         }
@@ -72,6 +73,15 @@ public class Main {
             }
         }
         return k;
+    }
+    public float [][] divisionmatrix(int[][]a,int[][]b ){
+        int ra=a.length;
+        int rb = a.length;
+        int ca = a[0].length;
+        int cb = a[0].length;
+        return multiplymatrix(a,inversematrix(b));
+
+
     }
     public int[][]transposematrix(int [][]a){
         int ra=a.length;
@@ -105,6 +115,8 @@ public class Main {
         return k;
     }
 
+
+
     public int[][] a_plus_a_transpose(int [][]a){
         int [][]trans = transposematrix(a);
         return addmatrix(a,trans);
@@ -122,6 +134,54 @@ public class Main {
         }
         if ((ra==3) && (ca==3) && (det!=0)){
 
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+
+                    ArrayList<ArrayList<Integer>> m = new ArrayList<>();
+                    for (int g = 0; g < a.length; g++) {
+                        ArrayList<Integer> t = new ArrayList<>();
+                        for (int x = 0; x < a[g].length; x++) {
+                            t.add(a[g][x]);
+                        }
+                        m.add(t);
+                    }
+
+                    ArrayList<ArrayList<Integer>> temp = new ArrayList<>();
+                    temp = m;
+                    temp.remove(i);
+
+                    for (int l = 0; l < temp.size(); l++) {
+                        temp.get(l).remove(j);
+                    }
+
+                    int[][] tempo = new int[2][2];
+
+                    for (int p = 0; p < temp.size(); p++) {
+                        int[] t = new int[2];
+                        for (int l = 0; l < temp.get(p).size(); l++) {
+                            t[l] = temp.get(p).get(l);
+                        }
+                        tempo[p] = t;
+                    }
+
+                    int ans = (a[0][0]*a[1][1]-a[1][0]*a[0][1]);
+
+                    if ((i+j)%2 != 0) {
+                        k[i][j] = -1*ans;
+                    }
+
+                    else{
+                        k[i][j] = ans;
+                    }
+                }
+            }
+        }
+
+        k = transposematrix(k);
+        for (int i = 0; i < k.length; i++) {
+            for (int j = 0; j < k[i].length; j++) {
+                k[i][j] = k[i][j]/det;
+            }
         }
         return k;
     }
@@ -165,9 +225,45 @@ public class Main {
         k[0][0]=x/3;
         return k;
     }
-    public int[][] elementt_wise_mul(int [][]a,int [][]b){
-        for (int i=0 ; i<)
-        for (int i=0 ; i<)
+    public int[][] element_wise_mul(int [][]a,int [][]b){
+        int ra=a.length;
+        int rb = a.length;
+        int ca = a[0].length;
+        int cb = a[0].length;
+        int[][]k = new int [ra][ca];
+        if ((ra==rb)&&(ca==cb)){
+            for (int i=0 ; i<ra;i++){
+                for (int j =0;j< ca;j++){
+                    k[i][j]=a[i][j]*b[i][j];
+                }
+            }
+        }
+        else{
+            System.out.println("this is not possible");
+        }
+        return k;
+
+    }
+    public int[][]element_wise_div(int[][]a,int[][]b){
+        int ra=a.length;
+        int rb = a.length;
+        int ca = a[0].length;
+        int cb = a[0].length;
+        int[][]k = new int [ra][ca];
+        if ((ra==rb)&&(ca==cb)){
+            for (int i=0 ; i<ra;i++){
+                for (int j =0;j< ca;j++){
+                    k[i][j]=a[i][j]/b[i][j];
+                }
+            }
+        }
+        else{
+            System.out.println("this is not possible");
+        }
+        return k;
+    }
+    public int [][] linear_eq(int[][]a,int[][]b){
+
     }
 
 
